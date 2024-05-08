@@ -19,7 +19,7 @@ async def make_answer():
             html_text = await response.text()
             exchange_rate = await process_html(html_text)
             datetime_now = datetime.now()
-            currency = Currency(datetime=datetime_now, kurs=exchange_rate)
+            currency = Currency(datetime=datetime_now, exchange_rate=exchange_rate)
             session.add(currency)
             session.commit()
             return datetime_now, exchange_rate
