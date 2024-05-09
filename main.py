@@ -17,11 +17,19 @@ dp = Dispatcher()
 
 @dp.message(Command('start'))
 async def send_welcome(message: types.Message):
+    """
+    Sends a welcome message to the user.
+    """
+
     await message.answer("Привет!")
 
 
 @dp.message(Command('get_exchange_rate'))
 async def get_exchange_rate(message: types.Message):
+    """
+    Handles the /get_exchange_rate command. Send xlsx file with records for today
+    """
+
     excel_filename = await generate_excel()
     await message.answer_document(document=FSInputFile(excel_filename))
 
@@ -29,6 +37,10 @@ async def get_exchange_rate(message: types.Message):
 
 
 async def scheduled():
+    """
+    Runs a scheduled task to fetch exchange rates.
+    """
+
     while True:
 
         while True:
@@ -44,6 +56,10 @@ async def scheduled():
 
 
 async def main():
+    """
+    Main function to start the bot and scheduled tasks.
+    """
+
     await asyncio.gather(
         dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types()),
         scheduled()

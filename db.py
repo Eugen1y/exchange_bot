@@ -6,6 +6,13 @@ Base = declarative_base()
 
 
 class Currency(Base):
+    """
+    A class representing a currency exchange rate.
+
+    Attributes:
+        datetime (DateTime): The datetime when the exchange rate was recorded.
+        exchange_rate (Float): The exchange rate value.
+    """
 
     __tablename__ = 'currency'
 

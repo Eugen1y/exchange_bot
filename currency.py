@@ -6,6 +6,13 @@ from openpyxl import Workbook
 
 
 def validate_exchange_rate(exchange_rate):
+    """
+    Validates the exchange rate.
+
+    :param exchange_rate: The exchange rate to validate.
+    :return: True if the exchange rate is valid, False otherwise.
+    """
+
     try:
         float(exchange_rate)
         return True
@@ -14,12 +21,25 @@ def validate_exchange_rate(exchange_rate):
 
 
 async def process_html(html_text):
+    """
+    Processes the HTML text to extract the exchange rate.
+
+    :param html_text: The HTML text.
+    :return: The extracted exchange rate as a string, or None if not found or invalid.
+    """
+
     soup = BeautifulSoup(html_text, 'html.parser')
     exchange_rate = soup.find('div', {'data-target': 'UAH'}).get('data-last-price')
     return str(round(float(exchange_rate), 4)) if validate_exchange_rate(exchange_rate) else None
 
 
 async def make_answer():
+    """
+    Fetches the exchange rate from a website and saves it to the database.
+
+    :return: A tuple containing the current datetime and exchange rate if successful, otherwise (None, None).
+    """
+
     url = 'https://www.google.com/finance/quote/USD-UAH'
 
     async with aiohttp.ClientSession() as http_session:
@@ -37,6 +57,12 @@ async def make_answer():
 
 
 async def generate_excel():
+    """
+    Generates an Excel file containing exchange rate data for the current day.
+
+    :return: The filename of the generated Excel file.
+    """
+
     wb = Workbook()
     ws = wb.active
 
